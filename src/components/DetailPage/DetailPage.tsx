@@ -1,34 +1,55 @@
 import React from "react";
 import moment from "moment";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 
 import "./DetailPage.scss";
 import Header from "components/Header";
 import Status from "components/Status";
+import api from "utils/api";
 
 const DetailPage: React.FC = () => {
+	const params = useParams<{ id: string }>();
+
+	const { isLoading, isError, data, isSuccess } = useQuery(
+		["launch", params?.id],
+		() => api.get(`/launches/${params.id}`),
+		{ enabled: !!params }
+	);
+
+	const renderDetail = () => {
+		if (isLoading) return "Loading";
+		else if (isError) return "Loading";
+		else if (isSuccess) {
+			const detail = data?.data;
+			const reuseStatus = detail.fairings
+				? detail.fairings.reused
+					? "reused"
+					: "not reused"
+				: "not reused";
+			return (
+				<div className="detail-container">
+					<div className="detail-header mb-3">Launch Details</div>
+					<div className="detail-name">
+						{detail.name} <Status status={reuseStatus} />
+					</div>
+					<div className="detail-date mb-2">
+						{moment(detail.date_utc).format("MMMM Do YYYY, h:mm:ss a")}
+						{"  "}
+						UTC
+					</div>
+					<div className="detail-details mb-2">
+						{detail.details === null ? "No Details Found" : detail.details}
+					</div>
+				</div>
+			);
+		}
+	};
+
 	return (
 		<div className="detail">
 			<Header />
-			<div className="detail-container">
-				<div className="detail-header mb-3">Launch Details</div>
-				<div className="detail-name">
-					Falcon 9 Test Flight <Status status="not reused" />
-				</div>
-				<div className="detail-date mb-2">
-					{moment("2010-06-04T18:45:00.000Z").format("MMMM Do YYYY, h:mm:ss a")}
-					{"  "}
-					UTC
-				</div>
-				<div className="detail-details mb-2">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, veniam
-					consequuntur optio cumque natus iste error. Accusamus est ad optio?
-					Earum, quas optio modi architecto nihil nulla nostrum eaque
-					asperiores! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Ipsa omnis dolor quas odio nihil excepturi nesciunt odit cumque,
-					magnam, nisi quia earum libero maiores! Error quas facilis laudantium
-					minima necessitatibus?
-				</div>
-			</div>
+			{renderDetail()}
 		</div>
 	);
 };

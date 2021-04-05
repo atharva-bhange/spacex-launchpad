@@ -1,56 +1,86 @@
 import React from "react";
 import { Tab, Row, Col, Nav } from "react-bootstrap";
+import { useQuery } from "react-query";
 
 import Header from "components/Header";
 import "./HomePage.scss";
 import Status from "components/Status";
+import Launch from "./Launch";
+import api from "utils/api";
 
 const HomePage: React.FC = () => {
+	const { isLoading, isError, data, isSuccess } = useQuery("launchpads", () =>
+		api.get("/launchpads")
+	);
+
+	const renderLaunches = (launches: string[]) => {
+		if (launches.length === 0) return <p className="pt-2">No Launches Yet</p>;
+		return (
+			<ul className="pt-2">
+				{launches
+					.reverse()
+					.slice(0, 3)
+					.map((launch) => (
+						<li>
+							<Launch key={launch} launchId={launch} />
+						</li>
+					))}
+			</ul>
+		);
+	};
+
+	const renderContent = () => {
+		if (isLoading) {
+			return <div>Loading</div>;
+		} else if (isError) {
+			return <div>Error</div>;
+		} else if (isSuccess) {
+			const list = data?.data;
+			return (
+				<div className="tab-container">
+					<Tab.Container defaultActiveKey={list[0].name}>
+						<Row style={{ margin: "0 0 0 0" }}>
+							<Col sm={2}>
+								<Nav variant="pills" className="flex-column">
+									{list.map((launchpad: any, index: number) => (
+										<Nav.Item key={index}>
+											<Nav.Link eventKey={launchpad.name}>
+												{launchpad.name}
+											</Nav.Link>
+										</Nav.Item>
+									))}
+								</Nav>
+							</Col>
+							<Col sm={10}>
+								<Tab.Content>
+									{list.map((launchpad: any, index: number) => (
+										<Tab.Pane key={index} eventKey={launchpad.name}>
+											<div className="name mb-1">
+												{launchpad.name} <Status status={launchpad.status} />
+											</div>
+											<div className="full-name mb-2">
+												{launchpad.full_name}
+											</div>
+											<div className="details mb-2">{launchpad.details}</div>
+											<div className="launches">
+												Launches
+												{renderLaunches(launchpad.launches as string[])}
+											</div>
+										</Tab.Pane>
+									))}
+								</Tab.Content>
+							</Col>
+						</Row>
+					</Tab.Container>
+				</div>
+			);
+		}
+	};
+
 	return (
 		<div className="homepage">
 			<Header />
-			<div className="tab-container">
-				<Tab.Container defaultActiveKey="first">
-					<Row style={{ margin: "0 0 0 0" }}>
-						<Col sm={2}>
-							<Nav variant="pills" className="flex-column">
-								<Nav.Item>
-									<Nav.Link eventKey="first">Tab 1</Nav.Link>
-								</Nav.Item>
-								<Nav.Item>
-									<Nav.Link eventKey="second">Tab 2</Nav.Link>
-								</Nav.Item>
-							</Nav>
-						</Col>
-						<Col sm={10}>
-							<Tab.Content>
-								<Tab.Pane eventKey="first">
-									<div className="name mb-1">
-										VAFB SLC 3W <Status status="under construction" />
-									</div>
-									<div className="full-name mb-2">
-										Vandenberg Air Force Base Space Launch Complex 3W
-									</div>
-									<div className="details mb-2">
-										SpaceX's original west coast launch pad for Falcon 1. It was
-										used in a static fire test but was never employed for a
-										launch, and was abandoned due to range scheduling conflicts
-										arising from overflying other active pads.
-									</div>
-									<div className="launches">
-										Launches
-										<ul className="pt-2">
-											<li>Falcon 9 Test Flight</li>
-											<li>Falcon 1 Test Flight</li>
-										</ul>
-									</div>
-								</Tab.Pane>
-								<Tab.Pane eventKey="second">test 2</Tab.Pane>
-							</Tab.Content>
-						</Col>
-					</Row>
-				</Tab.Container>
-			</div>
+			{renderContent()}
 		</div>
 	);
 };
