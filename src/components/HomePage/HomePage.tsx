@@ -3,7 +3,7 @@ import { Tab, Row, Col, Nav } from "react-bootstrap";
 
 import Header from "components/Header";
 import "./HomePage.scss";
-import Status from "./Status";
+import Status from "components/Status";
 
 const HomePage: React.FC = () => {
 	return (

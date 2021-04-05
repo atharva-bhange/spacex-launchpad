@@ -9,11 +9,14 @@ interface PropType {
 		| "retired"
 		| "lost"
 		| "under construction"
-		| "unknown";
+		| "unknown"
+		| "reused"
+		| "not reused";
 }
 
 const Status: React.FC<PropType> = ({ status }) => {
 	switch (status) {
+		case "reused":
 		case "active":
 			return (
 				<div className="status status-active">
@@ -24,6 +27,7 @@ const Status: React.FC<PropType> = ({ status }) => {
 		case "inactive":
 		case "retired":
 		case "unknown":
+		case "not reused":
 			return (
 				<div className="status">
 					<i className="fas fa-minus-circle status-inactive"></i>

@@ -1,1 +1,33 @@
 @import "../../utils/default.scss";
+
+.detail {
+	min-height: 100vh;
+	width: 100%;
+
+	background-color: $DARK;
+
+	.detail-container {
+		margin: 1rem 2rem 0 2rem;
+		color: $LIGHT;
+
+		.detail-header {
+			font-size: 2rem;
+			font-weight: 600;
+		}
+
+		.detail-name {
+			font-size: 1.5rem;
+			font-weight: 500;
+		}
+
+		.detail-date {
+			font-size: 1rem;
+			color: lightgray;
+			font-style: italic;
+		}
+
+		.detail-details {
+			font-size: 1rem;
+		}
+	}
+}
