@@ -8,3 +8,10 @@ $LIGHT: rgb(255, 255, 255);
 * {
 	font-family: "Lato", sans-serif;
 }
+
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

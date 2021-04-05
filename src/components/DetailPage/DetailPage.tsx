@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 import "./DetailPage.scss";
 import Header from "components/Header";
@@ -18,7 +19,12 @@ const DetailPage: React.FC = () => {
 	);
 
 	const renderDetail = () => {
-		if (isLoading) return "Loading";
+		if (isLoading)
+			return (
+				<div className="loader">
+					<Spinner animation="border" variant="light" />
+				</div>
+			);
 		else if (isError) return "Loading";
 		else if (isSuccess) {
 			const detail = data?.data;

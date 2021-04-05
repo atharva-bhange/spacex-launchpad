@@ -1,5 +1,5 @@
 import React from "react";
-import { Tab, Row, Col, Nav } from "react-bootstrap";
+import { Tab, Row, Col, Nav, Spinner } from "react-bootstrap";
 import { useQuery } from "react-query";
 
 import Header from "components/Header";
@@ -31,7 +31,11 @@ const HomePage: React.FC = () => {
 
 	const renderContent = () => {
 		if (isLoading) {
-			return <div>Loading</div>;
+			return (
+				<div className="loader">
+					<Spinner animation="border" variant="light" />
+				</div>
+			);
 		} else if (isError) {
 			return <div>Error</div>;
 		} else if (isSuccess) {
