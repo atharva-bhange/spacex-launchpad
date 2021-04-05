@@ -1,1 +1,52 @@
 @import "../../utils/default.scss";
+
+.homepage {
+	width: 100%;
+	background-color: $DARK;
+	min-height: 100vh;
+
+	.tab-container {
+		margin: 1.5rem 1rem 0 1rem;
+
+		.nav-link {
+			color: $LIGHT;
+		}
+
+		.active.nav-link {
+			color: $DARK !important;
+			background-color: $LIGHT;
+		}
+
+		.tab-content {
+			padding: 1rem;
+			color: $LIGHT;
+
+			.name {
+				font-size: 1.3rem;
+				font-weight: 500;
+				font-style: italic;
+				color: lightgray;
+			}
+
+			.full-name {
+				font-size: 1.7rem;
+				font-weight: 600;
+			}
+
+			.detail {
+				color: lightgrey;
+			}
+
+			.launches {
+				font-size: 1.3rem;
+
+				li {
+					cursor: pointer;
+					&:hover {
+						color: lightgrey;
+					}
+				}
+			}
+		}
+	}
+}

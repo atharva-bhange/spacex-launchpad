@@ -1,0 +1,19 @@
+@import "../../utils/default.scss";
+
+.header {
+	margin: 0 2rem 0 2rem;
+	padding-top: 1rem;
+	color: $LIGHT;
+
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+
+	span {
+		font-size: 1.3rem;
+	}
+
+	img {
+		width: 15rem;
+	}
+}

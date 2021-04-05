@@ -1,0 +1,30 @@
+@import "../../../utils/default.scss";
+
+.status {
+	text-transform: capitalize;
+	display: inline;
+	margin-left: 2rem;
+
+	.far {
+		margin-right: 0.5rem !important;
+	}
+	.fas {
+		margin-right: 0.5rem !important;
+	}
+}
+
+.status-active {
+	color: lightgreen;
+}
+
+.status-inactive {
+	color: lightsalmon;
+}
+
+.status-construction {
+	color: rgb(255, 255, 162);
+}
+
+.status-lost {
+	color: red;
+}
